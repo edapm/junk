@@ -1,0 +1,20 @@
+name: build
+on:
+  push:
+    branches:    
+      - website
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            git fetch && git pull
+            npm i
+            npm run build
+            npm run start
